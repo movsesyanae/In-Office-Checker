@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>label</key>
+    <string>com.devdaily.pingwebsites</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <string>/Users/al/bin/crontab-test.sh</string>
+    </array>
+
+    <key>OnDemand</key>
+    <false/>
+    <key>StartCalendarInterval</key>
+    <array>
+        check
+        <dict>
+            <key>Hour</key>
+            <integer>10</integer>
+            <key>Minute</key>
+            <integer>32</integer>
+        </dict>
+        <dict>
+            <key>Hour</key>
+            <integer>11</integer>
+            <key>Minute</key>
+            <integer>32</integer>
+        </dict>
+    </array>
+
+    <key>StandardErrorPath</key>
+    <string></string>
+
+    <key>StandardOutPath</key>
+    <string></string>
+</dict>
+</plist>
