@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"os"
 	"strconv"
@@ -75,6 +76,14 @@ func main() {
 		in_office_data := new(In_Office)
 		in_office_data.load()
 		in_office_data.days_since(year, month, day)
+	case "help":
+		fmt.Println("Available commands are:")
+		fmt.Println("\tinit")
+		fmt.Println("\tset")
+		fmt.Println("\tcheck")
+		fmt.Println("\tdays since")
+		fmt.Println("\thelp")
+
 	default:
 		if len(args) != 4 {
 			log.Fatal("Incorrect usage")

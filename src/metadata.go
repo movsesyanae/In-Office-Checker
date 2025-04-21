@@ -33,7 +33,8 @@ func (metadata *Metadata) load() {
 	if non_standard_path {
 		metadata.path = path
 	} else {
-		metadata.path = "~/.my_tools/in_office/"
+		home_path, _ := os.UserHomeDir()
+		metadata.path = filepath.Join(home_path, ".my_tools", "in_office")
 	}
 
 	var file_path string = filepath.Join(metadata.path, "metadata.txt")
@@ -55,9 +56,11 @@ func (metadata *Metadata) create_empty() {
 	if non_standard_path {
 		metadata.path = path
 	} else {
-		metadata.path = "~/.my_tools/in_office/"
+		home_path, _ := os.UserHomeDir()
+		metadata.path = filepath.Join(home_path, ".my_tools", "in_office")
 	}
 	metadata.office_wifi_name = ""
+	os.MkdirAll(metadata.path, 0755)
 
 	// save get wifi name command into a script
 	metadata.create_get_wifi_script()
@@ -71,13 +74,7 @@ ipconfig getsummary "$(networksetup -listallhardwareports | awk '/Wi-Fi|AirPort/
 `
 	script_dir := filepath.Join(metadata.path, "scripts")
 	// Create directory if not present
-	if _, err := os.Stat(script_dir); err != nil {
-		if os.IsNotExist(err) {
-			os.Mkdir(script_dir, 0755)
-		} else {
-			fmt.Printf("Error checking directory: %v\n", err)
-		}
-	}
+	os.Mkdir(script_dir, 0755)
 	script_file_path := filepath.Join(script_dir, "get_wifi.sh")
 	file, err := os.Create(script_file_path)
 	if err != nil {
