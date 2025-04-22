@@ -88,6 +88,9 @@ func (in_office_data *In_Office) load() {
 	in_office_data.metadata = new(Metadata)
 	in_office_data.metadata.load()
 	in_office_data.df = read_from_csv(in_office_data.metadata.get_csv_location())
+	if in_office_data.df.Nrow() == 0 {
+		in_office_data.df = create_empty_df()
+	}
 }
 
 func (in_office_data *In_Office) log_day(year int, month int, day int) bool {
@@ -124,6 +127,7 @@ func (in_office_data *In_Office) save() {
 	}
 
 	in_office_data.df.WriteCSV(f)
+	f.Close()
 	in_office_data.metadata.save()
 }
 
