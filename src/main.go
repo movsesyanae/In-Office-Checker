@@ -6,6 +6,7 @@ import (
 	"os"
 	"strconv"
 	"strings"
+	"time"
 )
 
 func main() {
@@ -58,20 +59,23 @@ func main() {
 		in_office_data.check_today()
 		in_office_data.save()
 	case "days":
-		if len(args) != 6 || args[2] != "since" {
-			log.Fatal("Incorrect usage of days since\nShould be ./in_office days since <year> <month> <day>")
+		if (len(args) != 6 && len(args) != 5) || args[2] != "since" {
+			log.Fatal("Incorrect usage of days since\nShould be ./in_office days since <month> <day> <year?>")
 		}
-		year, err := strconv.Atoi(args[3])
+		month, err := strconv.Atoi(args[3])
 		if err != nil {
-			log.Fatal("Incorrect usage of days since\nShould be ./in_office days since <year> <month> <day>")
+			log.Fatal("Incorrect usage of days since\nShould be ./in_office days since <month> <day> <year?>")
 		}
-		month, err := strconv.Atoi(args[4])
+		day, err := strconv.Atoi(args[4])
 		if err != nil {
-			log.Fatal("Incorrect usage of days since\nShould be ./in_office days since <year> <month> <day>")
+			log.Fatal("Incorrect usage of days since\nShould be ./in_office days since <month> <day> <year?>")
 		}
-		day, err := strconv.Atoi(args[5])
-		if err != nil {
-			log.Fatal("Incorrect usage of days since\nShould be ./in_office days since <year> <month> <day>")
+		var year int = time.Now().Year()
+		if len(args) == 6 {
+			year, err = strconv.Atoi(args[5])
+			if err != nil {
+				log.Fatal("Incorrect usage of days since\nShould be ./in_office days since <month> <day> <year?>")
+			}
 		}
 		in_office_data := new(In_Office)
 		in_office_data.load()

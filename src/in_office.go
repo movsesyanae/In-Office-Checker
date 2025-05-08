@@ -142,11 +142,19 @@ func (in_office_data *In_Office) create_empty(reset_df bool) {
 }
 
 func (in_office_data *In_Office) days_since(year int, month int, day int) {
-	filtered := in_office_data.df.FilterAggregation(
+	filt_0 := in_office_data.df.Filter(
+		dataframe.F{0, "year", series.Greater, year})
+	filt_1 := in_office_data.df.FilterAggregation(
 		dataframe.And,
-		dataframe.F{0, "year", series.GreaterEq, year},
-		dataframe.F{0, "month", series.GreaterEq, month},
+		dataframe.F{0, "year", series.Eq, year},
+		dataframe.F{0, "month", series.Greater, month},
+	)
+	filt_2 := in_office_data.df.FilterAggregation(
+		dataframe.And,
+		dataframe.F{0, "year", series.Eq, year},
+		dataframe.F{0, "month", series.Eq, month},
 		dataframe.F{0, "day", series.GreaterEq, day},
 	)
+	filtered := filt_0.Concat(filt_1).Concat(filt_2)
 	fmt.Printf("There have been %v days in office since %v-%v-%v\n", filtered.Nrow(), year, month, day)
 }
